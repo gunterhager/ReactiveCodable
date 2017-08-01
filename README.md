@@ -11,7 +11,7 @@ ReactiveSwift JSON parsing helpers for Swift 4 JSON decoding.
 ReactiveCodable supports JSON mapping for ReactiveSwift on values in a `Signal` or `SignalProducer` stream.
 
 ```swift
-// Create models from a JSON dictionary
+// Create model from a JSON dictionary
 let jsonSignalProducer: SignalProducer<Data, NSError> = // ...
 jsonSignalProducer.mapToType(User.self).startWithResult { result in
     // use the decoded User model
