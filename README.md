@@ -3,6 +3,7 @@
 ![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)
 
 ReactiveSwift JSON parsing helpers for Swift 4 JSON decoding.
+Inspired by: [ReactiveMapper](https://github.com/aschuch/ReactiveMapper)
 
 ## Usage
 
