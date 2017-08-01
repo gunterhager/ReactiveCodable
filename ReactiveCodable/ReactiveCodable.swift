@@ -33,10 +33,9 @@ extension SignalProtocol where Value == Data {
     /// Maps the given JSON object within the stream to an object of given `type`.
     ///
     /// - parameter type: The type of the object that should be returned
-    /// - parameter rootKeys: An array of keys that should be traversed in order to find a nested JSON object. The resulting object is subsequently used for further decoding.
     ///
     /// - returns: A new Signal emitting the decoded object.
-    public func mapToType<T: Decodable>(_ type: T.Type, rootKeys: [String]? = nil) -> Signal<T, ReactiveCodableError> {
+    public func mapToType<T: Decodable>(_ type: T.Type) -> Signal<T, ReactiveCodableError> {
         return signal
             .mapError { ReactiveCodableError.underlying($0) }
             .attemptMap { json -> Result<T, ReactiveCodableError> in
@@ -57,11 +56,10 @@ extension SignalProducerProtocol where Value == Data {
     /// Maps the given JSON object within the stream to an object of given `type`
     ///
     /// - parameter type: The type of the object that should be returned
-    /// - parameter rootKeys: An array of keys that should be traversed in order to find a nested JSON object. The resulting object is subsequently used for further decoding.
     ///
     /// - returns: A new SignalProducer emitting the decoded object.
-    public func mapToType<T: Decodable>(_ type: T.Type, rootKeys: [String]? = nil) -> SignalProducer<T, ReactiveCodableError> {
-        return producer.lift { $0.mapToType(type, rootKeys: rootKeys) }
+    public func mapToType<T: Decodable>(_ type: T.Type) -> SignalProducer<T, ReactiveCodableError> {
+        return producer.lift { $0.mapToType(type) }
     }
     
 }
