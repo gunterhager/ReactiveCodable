@@ -32,14 +32,15 @@ public enum ReactiveCodableError: Error {
 extension SignalProtocol where Value == Data {
     /// Maps the given JSON object within the stream to an object of given `type`.
     ///
-    /// - parameter type: The type of the object that should be returned
-    ///
-    /// - returns: A new Signal emitting the decoded object.
-    public func mapToType<T: Decodable>(_ type: T.Type) -> Signal<T, ReactiveCodableError> {
+    /// - Parameters:
+    ///   - type: The type of the object that should be returned
+    ///   - decoder: A `JSONDecoder` to use. This allows configuring the decoder.
+    /// - Returns: A new Signal emitting the decoded object.
+    public func mapToType<T: Decodable>(_ type: T.Type, decoder: JSONDecoder = JSONDecoder()) -> Signal<T, ReactiveCodableError> {
         return signal
             .mapError { ReactiveCodableError.underlying($0) }
             .attemptMap { json -> Result<T, ReactiveCodableError> in
-                return unwrapThrowableResult { try JSONDecoder().decode(type.self, from: json) }
+                return unwrapThrowableResult { try decoder.decode(type.self, from: json) }
                 
                 //                let info = [NSLocalizedFailureReasonErrorKey: "The provided `Value` could not be cast to `Data` or there is no value at the given `rootKeys`: \(String(describing: rootKeys))"]
                 //                let error = NSError(domain: ReactiveCodableErrorDomain, code: -1, userInfo: info)
@@ -55,11 +56,12 @@ extension SignalProducerProtocol where Value == Data {
     
     /// Maps the given JSON object within the stream to an object of given `type`
     ///
-    /// - parameter type: The type of the object that should be returned
-    ///
-    /// - returns: A new SignalProducer emitting the decoded object.
-    public func mapToType<T: Decodable>(_ type: T.Type) -> SignalProducer<T, ReactiveCodableError> {
-        return producer.lift { $0.mapToType(type) }
+    /// - Parameters:
+    ///   - type: The type of the object that should be returned
+    ///   - decoder: A `JSONDecoder` to use. This allows configuring the decoder.
+    /// - Returns: A new SignalProducer emitting the decoded object.
+    public func mapToType<T: Decodable>(_ type: T.Type, decoder: JSONDecoder = JSONDecoder()) -> SignalProducer<T, ReactiveCodableError> {
+        return producer.lift { $0.mapToType(type, decoder: decoder) }
     }
     
 }

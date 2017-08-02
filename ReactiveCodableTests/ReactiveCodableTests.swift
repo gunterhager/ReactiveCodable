@@ -61,6 +61,19 @@ class ReactiveCodableTests: XCTestCase {
 
         XCTAssertNotNil(error, "error should not be nil")
         XCTAssertEqual(error?.nsError, sentError, "the sent error should be wrapped in an .Underlying error")
-    }    
+    }
+    
+    func testOwnDecoder() {
+        var tasks: [Task]?
+        let decoder = JSONDecoder()
+        mockData.load("tasks")
+            .mapToType([Task].self, decoder: decoder)
+            .startWithResult { tasks = $0.value }
+        
+        XCTAssertNotNil(tasks, "mapToType should not return nil tasks")
+        XCTAssertTrue((tasks!).count == 3, "mapJSON returned wrong number of tasks")
+    }
+    
+
 
 }
