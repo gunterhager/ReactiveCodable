@@ -1,6 +1,19 @@
 {
+    "users": [
+              {
+              "name": "Matthias"
+              },
+              {
+              "name": "Gunter"
+              },
+              {
+              "name": "Stefan"
+              }
+              ],
     "user": {
         "name": "Alex"
+    },
+    "task": {
+        "title": "Task1"
     }
 }
-
