@@ -74,6 +74,18 @@ class ReactiveCodableTests: XCTestCase {
         XCTAssertTrue((tasks!).count == 3, "mapJSON returned wrong number of tasks")
     }
     
+    enum RootKey: String, CodingKey {
+        case user
+    }
+    
+    func testMapToObjectRootKey() {
+        var user: User?
+        mockData.load("user_rootkey")
+            .mapToType(User.self, rootKey: RootKey.user)
+            .startWithResult { user = $0.value }
+        XCTAssertNotNil(user, "mapToType should not return nil user")
+    }
+    
 
 
 }
