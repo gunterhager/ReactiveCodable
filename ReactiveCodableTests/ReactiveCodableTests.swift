@@ -85,7 +85,5 @@ class ReactiveCodableTests: XCTestCase {
             .startWithResult { user = $0.value }
         XCTAssertNotNil(user, "mapToType should not return nil user")
     }
-    
-
 
 }

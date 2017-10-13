@@ -30,6 +30,8 @@ public enum ReactiveCodableError: Error {
     }
 }
 
+let userInfoRootKey = CodingUserInfoKey(rawValue: "rootKey")!
+
 // MARK: Signal
 
 extension SignalProtocol where Value == Data {
@@ -58,7 +60,7 @@ extension SignalProtocol where Value == Data {
             .attemptMap { json -> Result<T, ReactiveCodableError> in
                 guard let key = RootKey(key: rootKey) else { return .failure(ReactiveCodableError.invalidRootKey) }
                 return unwrapThrowableResult {
-                    RootKey.rootKey = key
+                    decoder.userInfo = [userInfoRootKey: key]
                     let result = try decoder.decode(ContainerModel<T>.self, from: json)
                     return result.nestedModel
                 }
@@ -104,16 +106,7 @@ private func unwrapThrowableResult<T>(throwable: () throws -> T) -> Result<T, Re
 
 // MARK: RootKey Helper
 
-struct RootKey: CodingKey, Hashable {
-    var hashValue: Int {
-        return stringValue.hashValue
-    }
-    
-    static var rootKey: RootKey?
-    
-    static func ==(lhs: RootKey, rhs: RootKey) -> Bool {
-        return lhs.stringValue == rhs.stringValue
-    }
+struct RootKey: CodingKey {
     
     var intValue: Int?
     var stringValue: String
@@ -142,10 +135,7 @@ struct ContainerModel<T: Decodable>: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: RootKey.self)
-        guard let rootKey = RootKey.rootKey,
-            container.allKeys.contains(rootKey)
-            else { throw ReactiveCodableError.invalidRootKey }
+        guard let rootKey = decoder.userInfo[userInfoRootKey] as? RootKey else { throw ReactiveCodableError.invalidRootKey }
         self.nestedModel = try container.decode(T.self, forKey: rootKey)
-        RootKey.rootKey = nil
     }
 }
