@@ -1,5 +1,5 @@
 # ReactiveCodable
-![Swift 3.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
+![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
 ![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)
 
 ReactiveSwift JSON parsing helpers for Swift 4 JSON decoding.
@@ -44,9 +44,9 @@ Current Swift compatibility breakdown:
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "gunterhager/ReactiveCodable”
+github "gunterhager/ReactiveCodable"
 ```
 
 Then run `carthage update`.
 
-#### 
+####

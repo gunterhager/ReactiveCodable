@@ -9,5 +9,5 @@
 import Foundation
 
 struct Task: Codable {
-    let name: String
+    let title: String
 }
