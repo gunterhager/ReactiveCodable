@@ -33,9 +33,9 @@ jsonSignalProducer.mapToType([Task].self).startWithResult { result in
 
 Current Swift compatibility breakdown:
 
-| Swift Version                    | Framework Version |
-| -------------------------------- | ----------------- |
-| 4.x (tested with Xcode 9 beta 4) | 1.x               |
+| Swift Version                         | Framework Version |
+| -------------------------------- | ---------------------- |
+| 4.x                                         | 1.x                           |
 
 ## Installation
 
